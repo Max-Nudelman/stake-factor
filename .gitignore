@@ -1,0 +1,8 @@
+# Downloaded and generated data. `python -m src.ingest` rebuilds all of it
+# from football-data.co.uk, so there is no reason to commit 27MB.
+data/
+
+__pycache__/
+*.pyc
+.DS_Store
+.ipynb_checkpoints/
