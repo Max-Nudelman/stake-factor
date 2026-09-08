@@ -112,10 +112,68 @@ Data is not committed, since `src/ingest.py` rebuilds it from football-data.co.u
 | `sql/` | Staging, the dimensional model, and the analysis queries |
 | `src/` | Download, harmonize, build the database |
 
-## Status
+## The answer
 
-Market layer, dimensional model and calibration queries are done. Still ahead: the bettor
-simulation, account level feature engineering, the time to detection curves that answer the
-headline question, and the cost model that prices false positives against false negatives.
+**Closing line value separates an adverse account after five settled bets (AUC 0.98) and is
+essentially perfect by forty. Realized profit never exceeds 0.62 and after two hundred bets is
+indistinguishable from a coin flip.** A bet either wins or loses, so profit is a very noisy read
+on a probability. CLV scores the decision rather than the outcome.
+
+4,000 simulated accounts, 477,697 bets into the real market. The book holds 5.1% to 5.5%
+against every recreational segment and loses 3.4% to sharps, which is roughly where a real
+book sits.
+
+### But the useful finding is the second one
+
+| accounts restricted | adverse caught | profitable cut | change in book profit |
+|---|---|---|---|
+| 760 (20%) | 86 of 86 | 674 | **-£202,000** |
+| 380 (10%) | 86 of 86 | 294 | -£92,000 |
+| 190 (5%) | 86 of 86 | 104 | -£29,000 |
+| 114 (3%) | 86 of 86 | 28 | +£20,000 |
+| 38 (1%) | 38 of 86 | 0 | **+£27,000** |
+
+**Every policy catches all 86 adverse accounts by the time it restricts 5% of the book. Going
+further only removes profitable customers.** The sharps take about £51,000 in total.
+Restricting the top 20% by CLV costs £202,000.
+
+619 recreational whales generate £3.05m of profit; 86 sharps take £51,000. A policy that trades
+one for the other is a bad trade even when it correctly identifies sharps.
+
+Timing is not the binding constraint: acting after **twenty** bets already captures 92% of what
+a perfect-foresight oracle achieves. Where the threshold sits is what decides whether the policy
+makes or loses money.
+
+### The mistake worth recording
+
+My first version labelled semi-sharps as adverse, because they are skilled. The cost model then
+reported a *negative* cost for failing to restrict them, which was the model saying the label
+was wrong rather than the arithmetic. Semi-sharps sit at the 94th percentile of CLV and the book
+holds **+4.7%** on them. Adverse is an economic property, not a skill property. That distinction
+is exactly what the skill-by-value framing existed to catch, and I still got it wrong first.
+
+## What this does not establish
+
+- **The bettors are my assumptions**, documented in `docs/assumptions.md`. A simulation cannot
+  tell you how real customers behave. It can tell you how an estimator behaves against a known
+  truth, which is the only claim made.
+- **Archetypes are cleanly separated by construction.** Real accounts sit on a continuum, so the
+  detection curve is an upper bound, not a forecast.
+- **One market type.** Match result only. Parlays, in-play and Asian handicap have different
+  margin structures.
+- **The 0.1 stake factor is a stand-in** for a number a real desk sets per account.
+
+## Running the simulation
+
+```bash
+python -m src.simulate     # 4,000 accounts betting into the real market
+python -m src.detect       # detection curves and policy costs
+python -m src.figures      # four charts
+python -m src.export_web   # JSON for the write-up
+```
+
+Bettors decide on the opening price and their own private estimate. **They never see a closing
+price.** That constraint was written into SCOPE.md before any code existed, because letting a
+bettor see the close would make the CLV validation circular.
 
 Write up at [max-nudelman.github.io](https://max-nudelman.github.io/projects/stake-factor.html).
