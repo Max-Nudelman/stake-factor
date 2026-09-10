@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+/* Values are taken from max-portfolio/assets/css/style.css so this page belongs
+   to the same site. Changing one here without changing it there breaks that. */
+:root {
+  /* Surfaces */
+  --background: #0B0D10;
+  --foreground: #E8EAED;
+  --card: #121519;
+  --card-foreground: #E8EAED;
+  --popover: #121519;
+  --popover-foreground: #E8EAED;
+
+  /* Primary: main interactive elements and primary text */
+  --primary: #E8EAED;
+  --primary-hover: #FFFFFF;
+  --primary-foreground: #0B0D10;
+
+  /* Brand accent: clickable, selected, focused. Not a surface. */
+  --brand-accent: #5EE6A8;
+  --brand-accent-foreground: #0B0D10;
+  --brand-accent-dim: #2C6E52;
+
+  /* Raised and hovered surfaces. Deliberately NOT the brand accent. */
+  --secondary: #121519;
+  --secondary-foreground: #E8EAED;
+  --muted: #121519;
+  --muted-foreground: #A0A8B4;
+  --subtle-foreground: #6C7684;
+  --accent: #1B2027;
+  --accent-foreground: #E8EAED;
+
+  /* Status. Status only, never decoration. */
+  --success: #5EE6A8;
+  --warning: #F5A524;
+  --destructive: #F5646C;
+  --destructive-foreground: #0B0D10;
+
+  /* Lines and focus */
+  --border: #262C35;
+  --input: #262C35;
+  --ring: #5EE6A8;
+
+  --radius: 6px;
+
+  /* Data series, stepped for the dark ground. Chart marks only. Blue and orange
+     because mint means "you can click this" everywhere else on this site. */
+  --series-1: #D95926;
+  --series-2: #3987E5;
+  --grid-line: #262C35;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-brand-accent: var(--brand-accent);
+  --color-brand-accent-foreground: var(--brand-accent-foreground);
+  --color-brand-accent-dim: var(--brand-accent-dim);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-subtle-foreground: var(--subtle-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-series-1: var(--series-1);
+  --color-series-2: var(--series-2);
+  --color-grid-line: var(--grid-line);
+
+  --font-display: var(--font-instrument-serif), "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-inter), -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --radius-button: 6px;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Display face runs tight and unbolded, matching the portfolio's headings. */
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.06;
+}

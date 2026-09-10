@@ -110,14 +110,23 @@ Data is not committed, since `src/ingest.py` rebuilds it from football-data.co.u
 | `docs/assumptions.md` | Every simulation parameter and its justification |
 | `docs/findings.md` | Results as they land, with the queries that produced them |
 | `sql/` | Staging, the dimensional model, and the analysis queries |
-| `src/` | Download, harmonize, build the database |
+| `src/` | Download, harmonize, build the database, simulate, detect, export |
+| `scripts/verify_port.py` | Checks the TypeScript port still reproduces the published run |
+| `outputs/` | Generated JSON the write-up reads. Regenerate, do not hand edit |
+| `web/` | Source of the interactive write-up. Next.js, TypeScript, Tailwind |
+| `docs/` | The published site (GitHub Pages, main branch, /docs) plus the notes below |
 
 ## The answer
 
 **Closing line value separates an adverse account after five settled bets (AUC 0.98) and is
-essentially perfect by forty. Realized profit never exceeds 0.62 and after two hundred bets is
-indistinguishable from a coin flip.** A bet either wins or loses, so profit is a very noisy read
-on a probability. CLV scores the decision rather than the outcome.
+essentially perfect by forty. Realized profit peaks at 0.61 after a hundred bets and never
+clears 0.62.** A bet either wins or loses, so profit is a very noisy read on a probability. CLV
+scores the decision rather than the outcome.
+
+Past a hundred bets the comparison stops being measurable rather than staying flat: no sharp
+account has enough settled bets left to score, so AUC is undefined there and the curve ends.
+Saying profit is "a coin flip by two hundred bets" would be reading a number that does not
+exist.
 
 4,000 simulated accounts, 477,697 bets into the real market. The book holds 5.1% to 5.5%
 against every recreational segment and loses 3.4% to sharps, which is roughly where a real
