@@ -1,0 +1,52 @@
+# Publishes docs/ to GitHub Pages.
+#
+# The point of this file is that it does not need anyone to flip a switch in the
+# repository settings first. `configure-pages` with `enablement: true` turns
+# Pages on through the API using the token this workflow already has, so the
+# site comes up on the first run.
+#
+# docs/ already holds a finished static export from web/, so there is nothing to
+# build here. Rebuild it with `npm run build:standalone` in web/ and copy the
+# output into docs/ when the site changes.
+name: Deploy the write-up to Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Let a run finish rather than cancelling it, so a deploy is never left halfway.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Turn Pages on if it is not already
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Upload docs/ as the site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
